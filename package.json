@@ -6,11 +6,11 @@
   "scripts": {
     "test": "tap test/*-test.js"
   },
-  "files": {
-    "README.md",
+  "files": [
     "package.json",
+    "README.md",
     "index.js"
-  },
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:joeledwards/changes-stream.git"
