@@ -1,6 +1,4 @@
-# changes-stream
-
-[![build status](https://secure.travis-ci.org/jcrugzz/changes-stream.svg)](http://travis-ci.org/jcrugzz/changes-stream)
+# @buzuli/changes-stream
 
 A fault tolerant changes stream with builtin retry HEAVILY inspired by
 [`follow`][follow]. This module is a [`Readable` Stream][readable] with all of
@@ -9,12 +7,12 @@ the fun stream methods that you would expect.
 ## install
 
 ```sh
-npm install changes-stream --save
+npm install @buzuli/changes-stream --save
 ```
 
 ## Options
 
-So `changes-stream` can take a fair bit of options in order so that you can
+So `@buzuli/changes-stream` can take a fair bit of options in order so that you can
 fully customize your `_changes` request. They include the following:
 
 ```js
@@ -32,13 +30,14 @@ fully customize your `_changes` request. They include the following:
   include_docs: false, // whether or not we want to return the full document as a property
   query_params: {}, // custom arbitrary params to send in request e.g. { hello: 'world' }
   use_post: false // switch the default HTTP method to POST (cannot be used with a filter array)
+  slow: true // switch back to the old (slow) parsing strategy
 }
 ```
 
 ## Example
 
 ```js
-const ChangesStream = require('changes-stream');
+const ChangesStream = require('@buzuli/changes-stream');
 
 const changes = new ChangesStream('http://localhost:5984/my_database');
 
@@ -47,5 +46,6 @@ changes.on('readable', () => {
 });
 
 ```
+
 [follow]: https://github.com/iriscouch/follow
 [readable]: http://nodejs.org/api/stream.html#stream_class_stream_readable
