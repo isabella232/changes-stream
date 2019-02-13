@@ -93,6 +93,8 @@ function ChangesStream (options) {
     ? false
     : (options.use_post || false);
 
+  this.slow = options.slow
+
   this.paused = false;
   this.destroying = false;
   this.request();
@@ -200,10 +202,7 @@ ChangesStream.prototype.onTimeout = function () {
   this.retry();
 };
 
-//
-// Parse and read the data that we get from _changes
-//
-ChangesStream.prototype._readData = function (data) {
+ChangesStream.prototype._readDataSlow = function (data) {
   debug('data event fired from the underlying _changes response');
 
   this._buffer += this._decoder.write(data);
@@ -222,6 +221,43 @@ ChangesStream.prototype._readData = function (data) {
     this._onChange(line);
   }
 };
+
+ChangesStream.prototype._readDataFast = function (data) {
+  debug('data event fired from the underlying _changes response');
+
+  var text = this._decoder.write(data);
+  var lines = text.split('\n')
+
+  if (lines.length > 1) {
+    this._buffer += lines.shift()
+    lines.unshift(this._buffer)
+    this._buffer = lines.pop()
+
+    for (var i=0; i<lines.length; i++) {
+      var line = lines[i];
+
+      try { line = JSON.parse(line) }
+      catch (ex) { return; }
+      //
+      // Process each change
+      //
+      this._onChange(line);
+    }
+  } else {
+    this._buffer += text
+  }
+};
+
+//
+// Parse and read the data that we get from _changes
+//
+ChangesStream.prototype._readData = function (data) {
+  if (this.slow) {
+    this._readDataSlow(data)
+  } else {
+    this._readDataFast(data)
+  }
+}
 
 //
 // Process each change request

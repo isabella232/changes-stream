@@ -1,26 +1,24 @@
 {
-  "name": "changes-stream",
-  "version": "2.2.0",
-  "description": "Simple module that handles getting changes from couchdb",
+  "name": "@buzuli/changes-stream",
+  "version": "1.0.0",
+  "description": "Stream changes from CouchDB via the /_changes api",
   "main": "index.js",
   "scripts": {
     "test": "tap test/*-test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:jcrugzz/changes-stream.git"
+    "url": "git@github.com:joeledwards/changes-stream.git"
   },
   "keywords": [
     "changes",
     "couchdb",
-    "follow"
+    "follow",
+    "stream"
   ],
-  "author": "Jarrett Cruger <jcrugzz@gmail.com>",
+  "author": "Joel Edwards <joeledwards@gmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jcrugzz/changes-stream/issues"
-  },
-  "homepage": "https://github.com/jcrugzz/changes-stream",
+  "homepage": "https://github.com/joeledwards/changes-stream",
   "dependencies": {
     "back": "~0.1.5",
     "debug": "~0.8.0",
