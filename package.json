@@ -26,6 +26,8 @@
     "readable-stream": "1.0.x"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
+    "durations": "^3.4.1",
     "tap": "~0.4.8"
   }
 }

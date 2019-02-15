@@ -94,10 +94,16 @@ function ChangesStream (options) {
     : (options.use_post || false);
 
   this.slow = options.slow
+  this.manualStart = options.manual_start
 
   this.paused = false;
   this.destroying = false;
-  this.request();
+
+  this.start = once(this.request.bind(this))
+
+  if (!this.manualStart) {
+    this.start()
+  }
 }
 
 //
@@ -426,3 +432,17 @@ ChangesStream.prototype._read = function (n) {
 function JDUP (obj) {
   return JSON.parse(JSON.stringify(obj));
 }
+
+function once (fn) {
+  var called = false
+
+  function wrapper () {
+    if (!called) {
+      called = true
+      return fn()
+    }
+  }
+
+  return wrapper
+}
+
