@@ -31,6 +31,9 @@
     "readable-stream": "1.0.x"
   },
   "devDependencies": {
+    "@buzuli/seq": "^1.0.1",
+    "axios": "^0.18.0",
+    "durations": "^3.4.1",
     "tap": "~0.4.8"
   }
 }
