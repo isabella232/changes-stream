@@ -1,51 +1,86 @@
-# @buzuli/changes-stream
+## changes-stream
 
-A fault tolerant changes stream with builtin retry HEAVILY inspired by
-[`follow`][follow]. This module is a [`Readable` Stream][readable] with all of
-the fun stream methods that you would expect.
+Forked from https://github.com/jcrugzz/changes-stream
 
-## install
+A fault tolerant changes stream with builtin retry.
+
+Inspired by [`follow`][https://github.com/iriscouch/follow].
+
+### Notes
+
+Attaching a 'readable' listener is not supported (yet).
+
+### Install
 
 ```sh
-npm install @buzuli/changes-stream --save
+$ npm install @npmcorp/changes-stream --save
 ```
 
-## Options
+### Test
 
-So `@buzuli/changes-stream` can take a fair bit of options in order so that you can
-fully customize your `_changes` request. They include the following:
+```sh
+# Standup a container with a CouchDB instance
+$ npm run docker:fresh
+$ npm test
+
+# To enable debug logging from ./index.js:
+$ DEBUG=changes-stream npm test
+```
+
+Alternatively, use `COUCH_URI` to point to an existing CouchDB.
+
+```sh
+$ COUCH_URI=http://user:pass@example-couch.com:5984/changes_stream_db \
+   npm test
+```
+
+### Options
+
+Options to customize `_changes` request.
 
 ```js
 {
-  db: 'http://localhost:5984/my_db', // full database URL
-  feed: 'continuous', // Can also be longpoll technically but not currently implemented
-  filter: 'docs/whatever', // Can be a defined couchdb view, a local filter function or an array of IDs
-  inactivity_ms: 60 * 60 * 1000, // time allow inactivity before retrying request
-  timeout: undefined, // How long couchdb should wait for a change to show up before closing the feed. in milliseconds
-  requestTimeout: 2 * 60 * 1000, // http timeout
-  agent: undefined, // http agent
-  since: 0, // update sequence to start from, 'now' will start it from latest
-  heartbeat: 30 * 1000, // how often we want couchdb to send us a heartbeat message
-  style: 'main_only', // specifies how many revisions returned all_docs would return leaf revs
-  include_docs: false, // whether or not we want to return the full document as a property
-  query_params: {}, // custom arbitrary params to send in request e.g. { hello: 'world' }
-  use_post: false // switch the default HTTP method to POST (cannot be used with a filter array)
-  slow: true // switch back to the old (slow) parsing strategy
+  // full database URL
+  db: 'http://localhost:5984/my_db',
+
+  // Can also be longpoll technically but not currently implemented
+  feed: 'continuous',
+
+  // Can be a defined couchdb view, a local filter function or an array of IDs
+  filter: 'docs/whatever',
+
+  // How long to wait before retrying the request
+  inactivity_ms: 60 * 60 * 1000,
+
+  // How long (in milliseconds) CouchDB should wait for a change before closing
+  // the feed
+  timeout: undefined,
+
+  // http timeout
+  requestTimeout: 2 * 60 * 1000,
+
+  // http agent
+  agent: undefined,
+
+  // update sequence to start from, 'now' will start it from latest
+  since: 0,
+
+  // how often (in milliseconds) we want couchdb to send us a heartbeat message
+  heartbeat: 30 * 1000,
+
+  // { main_only | all_docs }
+  // Specifies how many revisions are returned in the changes array. The default,
+  // main_only, will only return the current “winning” revision; all_docs will
+  // return all leaf revisions (including conflicts and deleted former conflicts.)
+  style: 'main_only',
+
+  // whether or not we want to return the full document as a property
+  include_docs: false,
+
+  // custom arbitrary params to send in request e.g. { hello: 'world' }
+  query_params: {},
+
+  // switch the default HTTP method to POST (cannot be used with a filter array)
+  use_post: false
 }
 ```
-
-## Example
-
-```js
-const ChangesStream = require('@buzuli/changes-stream');
-
-const changes = new ChangesStream('http://localhost:5984/my_database');
-
-changes.on('readable', () => {
-  const change = changes.read();
-});
-
-```
-
-[follow]: https://github.com/iriscouch/follow
-[readable]: http://nodejs.org/api/stream.html#stream_class_stream_readable

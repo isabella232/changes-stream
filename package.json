@@ -1,19 +1,25 @@
 {
-  "name": "@buzuli/changes-stream",
-  "version": "1.0.0",
+  "name": "@npmcorp/changes-stream",
+  "version": "2.2.0",
   "description": "Stream changes from CouchDB via the /_changes api",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*-test.js"
+    "test:watch": "mocha --watch",
+    "test": "mocha --exit",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "docker:fresh": "docker-compose down; docker-compose rm -f; docker-compose up -d couchdb",
+    "docker:purge": "docker-compose down; docker-compose rm -f"
   },
   "files": [
     "package.json",
     "README.md",
-    "index.js"
+    "index.js",
+    "LICENCE"
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:joeledwards/changes-stream.git"
+    "url": "git@github.com:npm/changes-stream.git"
   },
   "keywords": [
     "changes",
@@ -21,19 +27,18 @@
     "follow",
     "stream"
   ],
-  "author": "Joel Edwards <joeledwards@gmail.com>",
+  "author": "npm <ops@npmjs.com>",
   "license": "MIT",
-  "homepage": "https://github.com/joeledwards/changes-stream",
+  "homepage": "https://github.com/npm/changes-stream",
   "dependencies": {
-    "back": "~0.1.5",
-    "debug": "~0.8.0",
-    "http-https": "~1.0.0",
-    "readable-stream": "1.0.x"
+    "back": "^1.0.2",
+    "debug": "^4.1.1"
   },
   "devDependencies": {
-    "@buzuli/seq": "^1.0.1",
-    "axios": "^0.18.0",
-    "durations": "^3.4.1",
-    "tap": "~0.4.8"
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.1.0",
+    "normalize-registry-metadata": "^1.1.2",
+    "standard": "^14.3.4"
   }
 }
