@@ -1,6 +1,6 @@
 {
   "name": "@npmcorp/changes-stream",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Stream changes from CouchDB via the /_changes api",
   "main": "index.js",
   "scripts": {
